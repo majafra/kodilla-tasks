@@ -24,7 +24,8 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
 //	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-
+	testCompile ('junit:junit:4.12')
+	testCompile ('org.mockito:mockito-all:1.10.19')
 }
 
 test {
