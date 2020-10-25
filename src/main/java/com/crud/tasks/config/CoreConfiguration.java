@@ -10,7 +10,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@EnableSwagger
+//@EnableSwagger
 @Configuration
 public class CoreConfiguration implements WebMvcConfigurer {
 
@@ -18,17 +18,17 @@ public class CoreConfiguration implements WebMvcConfigurer {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    @Bean
-    public Docket api()
-    { return new Docket(DocumentationType.SWAGGER_2) .select() .apis(RequestHandlerSelectors.any()) .paths(PathSelectors.any()) .build(); }
-
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        // Required by Swagger UI configuration
-        registry.addResourceHandler("/lib/**").addResourceLocations("/lib/").setCachePeriod(0);
-        registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(0);
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(0);
-        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+//    @Bean
+//    public Docket api()
+//    { return new Docket(DocumentationType.SWAGGER_2) .select() .apis(RequestHandlerSelectors.any()) .paths(PathSelectors.any()) .build(); }
+//
+//    @Override
+//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+//        // Required by Swagger UI configuration
+//        registry.addResourceHandler("/lib/**").addResourceLocations("/lib/").setCachePeriod(0);
+//        registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(0);
+//        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(0);
+//        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//    }
 }

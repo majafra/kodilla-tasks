@@ -1,45 +1,34 @@
 package com.crud.tasks.trello.client;
-
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.trello.config.TrelloConfig;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloClientTest {
 
     @InjectMocks
     private TrelloClient trelloClient;
 
-    @MockBean
+    @Mock
     private RestTemplate restTemplate;
 
-    @MockBean
+    @Mock
     TrelloConfig trelloConfig;
 
     @Before
@@ -47,14 +36,14 @@ public class TrelloClientTest {
         when(trelloConfig.getTrelloApiEndpoint()).thenReturn(("http://test.com"));
         when(trelloConfig.getTrelloAppKey()).thenReturn("test");
         when(trelloConfig.getTrelloToken()).thenReturn("test");
+        when(trelloConfig.getTrelloUserName()).thenReturn("bartek45188500");
     }
-
     @Test
     public void shouldFetchTrelloBoards() throws URISyntaxException {
         //Given
 
         TrelloBoardDto[] trelloBoards = new TrelloBoardDto[1];
-        trelloBoards[0] = new TrelloBoardDto("test_id", "test_board", new ArrayList<>());
+        trelloBoards[0] = new TrelloBoardDto("test_board", "test_id", new ArrayList<>());
 
         URI uri = new URI("http://test.com/members/bartek45188500/boards?key=test&token=test&fields=name,id&lists=all");
 
@@ -69,23 +58,32 @@ public class TrelloClientTest {
     }
     @Test
     public void shouldCreateCard() throws URISyntaxException {
-//Given
-     TrelloCardDto trelloCardDto = new TrelloCardDto("Task task", "tasl description", "top","test_id");
+// Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto(
+                "Test task",
+                "Test Description",
+                "top",
+                "test_id"
+        );
+
         URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
 
-        CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
+        System.out.println(uri);
+        CreatedTrelloCard createdTrelloCardDto = new CreatedTrelloCard(
                 "1",
                 "Test task",
                 "http://test.com"
         );
-        when(restTemplate.postForObject(uri,null,CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
-//When
+
+        when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCardDto);
+
+        // When
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
-// Then
-        assertEquals("1",newCard.getId());
+
+        // Then
+        assertEquals("1", newCard.getId());
         assertEquals("Test task", newCard.getName());
-        assertEquals("http://test.com",newCard.getShortUrl());
-    }
+        assertEquals("http://test.com", newCard.getShortUrl());    }
     @Test
     public void shouldReturnEmptyList() throws URISyntaxException{
         //Given
@@ -96,7 +94,7 @@ public class TrelloClientTest {
 //        when(restTemplate.getForObject(uri, TrelloBoardDto[].class)).thenReturn(null);
 
         //Then
-        assertEquals(null, shouldReturnEmptyList);
+        assertEquals(0, shouldReturnEmptyList.size());
 
     }
 }
