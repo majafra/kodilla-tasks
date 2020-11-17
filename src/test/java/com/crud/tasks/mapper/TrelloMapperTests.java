@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MapperTests {
+public class TrelloMapperTests {
 
     @Test
     public void comparingTrelloCardToCardDtoMapperTest() {
